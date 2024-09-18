@@ -2,13 +2,14 @@ import c from "classnames";
 import { useTheme } from "contexts/use-theme";
 import { usePokemon, usePokemonList, useTextTransition } from "hooks";
 import { useState } from "react";
-import { randomMode } from "utils/random";
-import { Button } from "./button";
-import { LedDisplay } from "./led-display";
 
 import "./pokedex.css";
+import LeftPanel from "./LeftPanel/LeftPanel";
+import RightPanel from "./RightPanel/RightPanel";
+import { Pokemon } from "models";
 
 export function Pokedex() {
+  const [selectedPokemons, setSelectedPokemons] = useState<Pokemon[]>([]);
   const { theme } = useTheme();
   const { ready, resetTransition } = useTextTransition();
   const { pokemonList } = usePokemonList();
@@ -32,61 +33,26 @@ export function Pokedex() {
     setI((i) => i + 1);
   };
 
+  const handleSelectPokemon = (pokemon: Pokemon | undefined) => {
+    if (!pokemon) return;
+    if (selectedPokemons.length >= 6) return;
+    setSelectedPokemons((prev) => [...prev, pokemon]);
+  };
   return (
     <div className={c("pokedex", `pokedex-${theme}`)}>
-      <div className="panel left-panel">
-        <div className="screen main-screen">
-          {selectedPokemon && (
-            <img
-              className={c(
-                "sprite",
-                "obfuscated",
-                ready && "ready",
-                ready && `ready--${randomMode()}`
-              )}
-              src={selectedPokemon.sprites.front_default}
-              alt={selectedPokemon.name}
-            />
-          )}
-        </div>
-        <div className="screen name-display">
-          <div
-            className={c(
-              "name",
-              "obfuscated",
-              ready && "ready",
-              ready && `ready--${randomMode()}`
-            )}
-          >
-            {selectedPokemon?.name}
-          </div>
-        </div>
-      </div>
-      <div className="panel right-panel">
-        <div className="controls leds">
-          <LedDisplay color="blue" />
-          <LedDisplay color="red" />
-          <LedDisplay color="yellow" />
-        </div>
-        <div className="screen second-screen">
-          {nextPokemon && (
-            <img
-              className={c(
-                "sprite",
-                "obfuscated",
-                ready && "ready",
-                ready && `ready--${randomMode()}`
-              )}
-              src={nextPokemon.sprites.front_default}
-              alt={nextPokemon.name}
-            />
-          )}
-        </div>
-        <div className="controls">
-          <Button label="prev" onClick={prev} />
-          <Button label="next" onClick={next} />
-        </div>
-      </div>
+      <br />
+      <span style={{ padding: '5px'}}>Pokemons in my Team: {selectedPokemons.length}</span>
+      <LeftPanel
+        pokemon={selectedPokemon}
+        ready={ready}
+        onSelect={handleSelectPokemon}
+      />
+      <RightPanel
+        onNext={next}
+        onPrev={prev}
+        pokemon={nextPokemon}
+        ready={ready}
+      />
     </div>
   );
 }

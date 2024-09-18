@@ -1,7 +1,7 @@
 import c from "classnames";
 
 type Props = React.ComponentProps<"button"> & {
-  label: "prev" | "next";
+  label: "prev" | "next" | "select pokemon";
 };
 
 import "./button.css";

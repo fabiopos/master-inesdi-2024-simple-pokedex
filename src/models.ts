@@ -4,6 +4,14 @@ export type PokemonUri = {
   url: string;
 };
 
+export type PokemonTypeDetail = {
+  id: number;
+  name: string;
+  damage_relations: {
+    double_damage_from: PokemonUri[];
+  };
+};
+
 export type PokemonAbility = {
   ability: {
     name: string;
