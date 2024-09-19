@@ -1,0 +1,21 @@
+.team-root {
+  margin-top: 10px;
+}
+.team-container {
+  margin-top: 10px;
+  display: flex;
+  border: 5px solid red;
+  border-radius: 2%;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  min-height: 80px;
+}
+
+.pokemon-item {
+  padding: 5px;
+}
+.team-full {
+  border-color: green;
+  border-width: 5px;
+}

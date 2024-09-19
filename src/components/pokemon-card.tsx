@@ -4,12 +4,12 @@ import "./pokemon-card.css";
 
 type Props = {
   pokemon: Pokemon;
-  onClick: () => void;
+  onClick: (pokemon: Pokemon) => void;
 };
 
 export function PokemonCard({ pokemon, onClick }: Props) {
   return (
-    <article className="pokemon-card" role="listitem" onClick={onClick}>
+    <article className="pokemon-card" role="listitem" onClick={()=> onClick(pokemon)}>
       <>
         <img
           src={pokemon.sprites.front_default}

@@ -1,5 +1,6 @@
 import c from "classnames";
 import { useTheme } from "contexts/use-theme";
+import { usePokemonTeam } from "contexts/use-pokemon-team";
 import { usePokemon, usePokemonList, useTextTransition } from "hooks";
 import { useState } from "react";
 
@@ -9,7 +10,7 @@ import RightPanel from "./RightPanel/RightPanel";
 import { Pokemon } from "models";
 
 export function Pokedex() {
-  const [selectedPokemons, setSelectedPokemons] = useState<Pokemon[]>([]);
+  const { pokemonTeam, setPokemonTeam } = usePokemonTeam();
   const { theme } = useTheme();
   const { ready, resetTransition } = useTextTransition();
   const { pokemonList } = usePokemonList();
@@ -35,13 +36,13 @@ export function Pokedex() {
 
   const handleSelectPokemon = (pokemon: Pokemon | undefined) => {
     if (!pokemon) return;
-    if (selectedPokemons.length >= 6) return;
-    setSelectedPokemons((prev) => [...prev, pokemon]);
+    if (pokemonTeam.length >= 6) return;
+    const pokemonExists = pokemonTeam.find((x) => x.id === pokemon.id);
+    if (pokemonExists) return;
+    setPokemonTeam((prev) => [...prev, pokemon]);
   };
   return (
     <div className={c("pokedex", `pokedex-${theme}`)}>
-      <br />
-      <span style={{ padding: '5px'}}>Pokemons in my Team: {selectedPokemons.length}</span>
       <LeftPanel
         pokemon={selectedPokemon}
         ready={ready}

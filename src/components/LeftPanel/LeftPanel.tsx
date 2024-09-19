@@ -47,7 +47,12 @@ export default function LeftPanel({
       {selectedPokemon?.types && (
         <PokemonWeakness types={selectedPokemon?.types ?? []} />
       )}
-      <button onClick={() => onSelect(selectedPokemon)}>select pokemon</button>
+      <button
+        className="select-pokemon-btn"
+        onClick={() => onSelect(selectedPokemon)}
+      >
+        select pokemon
+      </button>
     </div>
   );
 }
